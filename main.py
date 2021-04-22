@@ -13,21 +13,28 @@ grille = [
     [1, 1, 1, 1, 1, 1, 1, 1],
 ]
 
+
 list_wood = []
 list_ice = []
 list_fire = []
+textId = ''
 
 
 class jeu():
     
-    def __init__(self, grille, list_wood):
+    def __init__(self, grille, list_wood, textId):
         self.grille = grille
         self.list_wood = list_wood
-
+        self.textId = textId
 
     def setGrille(self, grille):
         self.grille = grille
    
+    def setVictory(self, textId):
+        self.textId = textId
+
+    def getVictory(self):
+        return self.textId
 
     def check(self, event):
         x = canvas.coords(W_image)[0]
@@ -44,16 +51,17 @@ class jeu():
                     elif self.grille[j][i]==2 and ((x == (i*(SIZE/len(self.grille[0]))) - 60) and (y < j*(SIZE/len(self.grille[1]))+110 and y > j*(SIZE/len(self.grille[1]))-60)):
                         if (self.grille[j][i+1]!=1 and self.grille[j][i+1]!=2 and (x == (i*(SIZE/len(self.grille[0]))) - 60) and (y < j*(SIZE/len(self.grille[1]))+110 and y > j*(SIZE/len(self.grille[1]))-60)):
                             for p in range(len(self.list_wood)):
-                                if (x+60 == canvas.coords(self.list_wood[p])[0] and (y < canvas.coords(self.list_wood[p])[1]+100 and y > canvas.coords(self.list_wood[p])[1]-20 )):
-                                    if(self.grille[j][i+1] == 3):
-                                        self.grille[j][i] = 0
-                                        self.grille[j][i+1] = 2
-                                        canvas.move(self.list_wood[p],SIZE/len(self.grille[j]),0)
-                                        self.map(self.grille)
-                                    else:
-                                        self.grille[j][i] = 0
-                                        self.grille[j][i+1] = 2
-                                        canvas.move(self.list_wood[p],SIZE/len(self.grille[j]),0)
+                                if(self.list_wood[p] in canvas.find_all()):
+                                    if (x+60 == canvas.coords(self.list_wood[p])[0] and (y < canvas.coords(self.list_wood[p])[1]+100 and y > canvas.coords(self.list_wood[p])[1]-20 )):
+                                        if(self.grille[j][i+1] == 3):
+                                            self.grille[j][i] = 0
+                                            self.grille[j][i+1] = 2
+                                            canvas.move(self.list_wood[p],SIZE/len(self.grille[j]),0)
+                                            self.map(self.grille)
+                                        else:
+                                            self.grille[j][i] = 0
+                                            self.grille[j][i+1] = 2
+                                            canvas.move(self.list_wood[p],SIZE/len(self.grille[j]),0)
 
 
                 elif(event.keysym == 'Left'):
@@ -62,16 +70,17 @@ class jeu():
                     elif self.grille[j][i]==2 and ((x == (i*(SIZE/len(self.grille[0]))) + 80) and (y < j*(SIZE/len(self.grille[1]))+110 and y > j*(SIZE/len(self.grille[1]))-60)):
                         if (self.grille[j][i-1]!=1 and self.grille[j][i-1]!=2 and (x == (i*(SIZE/len(self.grille[0]))) + 80) and (y < j*(SIZE/len(self.grille[1]))+110 and y > j*(SIZE/len(self.grille[1]))-60)):
                             for p in range(len(self.list_wood)):
-                                if (x-80 == canvas.coords(self.list_wood[p])[0] and (y < canvas.coords(self.list_wood[p])[1]+100 and y > canvas.coords(self.list_wood[p])[1]-20)):
-                                    if(self.grille[j][i-1] == 3):
-                                        self.grille[j][i] = 0
-                                        self.grille[j][i-1] = 2
-                                        canvas.move(self.list_wood[p],-SIZE/len(self.grille[j]),0)
-                                        self.map(self.grille)
-                                    else:
-                                        self.grille[j][i] = 0
-                                        self.grille[j][i-1] = 2
-                                        canvas.move(self.list_wood[p],-SIZE/len(self.grille[j]),0)
+                                if(self.list_wood[p] in canvas.find_all()):
+                                    if (x-80 == canvas.coords(self.list_wood[p])[0] and (y < canvas.coords(self.list_wood[p])[1]+100 and y > canvas.coords(self.list_wood[p])[1]-20)):
+                                        if(self.grille[j][i-1] == 3):
+                                            self.grille[j][i] = 0
+                                            self.grille[j][i-1] = 2
+                                            canvas.move(self.list_wood[p],-SIZE/len(self.grille[j]),0)
+                                            self.map(self.grille)
+                                        else:
+                                            self.grille[j][i] = 0
+                                            self.grille[j][i-1] = 2
+                                            canvas.move(self.list_wood[p],-SIZE/len(self.grille[j]),0)
 
 
                 elif(event.keysym == 'Down'):
@@ -80,16 +89,17 @@ class jeu():
                     elif self.grille[j][i]==2 and ((y == (j*(SIZE/len(self.grille[0]))) - 30) and (x < i*(SIZE/len(self.grille[1]))+80 and x > i*(SIZE/len(self.grille[1]))-60)):
                         if (self.grille[j+1][i]!=1 and self.grille[j+1][i]!=2 and (y == (j*(SIZE/len(self.grille[0]))) - 30) and (x < i*(SIZE/len(self.grille[1]))+80 and x > i*(SIZE/len(self.grille[1]))-60)):
                             for p in range(len(self.list_wood)):
-                                if (y+30 == canvas.coords(self.list_wood[p])[1] and (x < canvas.coords(self.list_wood[p])[0]+80 and x > canvas.coords(self.list_wood[p])[0]-60)):
-                                    if(self.grille[j+1][i] == 3):
-                                        self.grille[j][i] = 0
-                                        self.grille[j+1][i] = 2
-                                        canvas.move(self.list_wood[p],0,SIZE/len(self.grille[j]))
-                                        self.map(self.grille)
-                                    else:
-                                        self.grille[j][i] = 0
-                                        self.grille[j+1][i] = 2
-                                        canvas.move(self.list_wood[p],0,SIZE/len(self.grille[j]))
+                                if(self.list_wood[p] in canvas.find_all()):
+                                    if (y+30 == canvas.coords(self.list_wood[p])[1] and (x < canvas.coords(self.list_wood[p])[0]+80 and x > canvas.coords(self.list_wood[p])[0]-60)):
+                                        if(self.grille[j+1][i] == 3):
+                                            self.grille[j][i] = 0
+                                            self.grille[j+1][i] = 2
+                                            canvas.move(self.list_wood[p],0,SIZE/len(self.grille[j]))
+                                            self.map(self.grille)
+                                        else:
+                                            self.grille[j][i] = 0
+                                            self.grille[j+1][i] = 2
+                                            canvas.move(self.list_wood[p],0,SIZE/len(self.grille[j]))
                                     
 
                     
@@ -99,16 +109,17 @@ class jeu():
                     elif self.grille[j][i]==2 and ((y == (j*(SIZE/len(self.grille[0]))) + 120) and (x < i*(SIZE/len(self.grille[1]))+80 and x > i*(SIZE/len(self.grille[1]))-60)):
                         if (self.grille[j-1][i]!=1  and self.grille[j-1][i]!=2 and (y == (j*(SIZE/len(self.grille[0]))) + 120) and (x < i*(SIZE/len(self.grille[1]))+80 and x > i*(SIZE/len(self.grille[1]))-60)):
                             for p in range(len(self.list_wood)):
-                                if (y-120 == canvas.coords(self.list_wood[p])[1] and (x < canvas.coords(self.list_wood[p])[0]+50 and x > canvas.coords(self.list_wood[p])[0]-50)):
-                                    if(self.grille[j-1][i] == 3):
-                                        self.grille[j][i] = 0
-                                        self.grille[j-1][i] = 2
-                                        canvas.move(self.list_wood[p],0,-SIZE/len(self.grille[j]))
-                                        self.map(self.grille)
-                                    else:
-                                        self.grille[j][i] = 0
-                                        self.grille[j-1][i] = 2
-                                        canvas.move(self.list_wood[p],0,-SIZE/len(self.grille[j]))
+                                if(self.list_wood[p] in canvas.find_all()):
+                                    if (y-120 == canvas.coords(self.list_wood[p])[1] and (x < canvas.coords(self.list_wood[p])[0]+50 and x > canvas.coords(self.list_wood[p])[0]-50)):
+                                        if(self.grille[j-1][i] == 3):
+                                            self.grille[j][i] = 0
+                                            self.grille[j-1][i] = 2
+                                            canvas.move(self.list_wood[p],0,-SIZE/len(self.grille[j]))
+                                            self.map(self.grille)
+                                        else:
+                                            self.grille[j][i] = 0
+                                            self.grille[j-1][i] = 2
+                                            canvas.move(self.list_wood[p],0,-SIZE/len(self.grille[j]))
                 
                 i=i+1
             i=0
@@ -167,19 +178,13 @@ class jeu():
                     a = a + 1
 
         if a == 0:
-            canvas.create_text(SIZE/2,SIZE/2, text="Victoire !!", fill="Red", font=('Pursia', 50))
+            victory = canvas.create_text(SIZE/2,SIZE/2, text="Victoire !!", fill="Red", font=('Pursia', 50))
+            self.setVictory(victory)
+            victory
 
         
-        for i in range(len(self.list_wood)):
-            if i in range(-len(self.list_wood), len(self.list_wood)):
-                if(list_wood[i] not in canvas.find_all()):
-                    list_wood.remove(list_wood[i])
 
-        print(self.list_wood)
-        
-        
-
-j = jeu(grille, list_wood)
+j = jeu(grille, list_wood, textId)
 root = Tk()
 imgfile = 'img/perso.png'
 # Utilisation d'un dictionnaire pour conserver une reference:
@@ -201,10 +206,12 @@ canvas.pack(padx=10,pady=10)
 
 class niveaux():
 
-    def __init__(self, list_fire, list_ice, list_wood):
+    def __init__(self, list_fire, list_ice, list_wood, textId):
         self.list_fire = list_fire
         self.list_ice = list_ice
         self.list_wood = list_wood
+        self.textId = textId
+
 
 
     def niveau1(self):
@@ -259,13 +266,15 @@ class niveaux():
         for i in range(len(list_fire)):
             canvas.delete(list_fire[i])
 
+        canvas.coords(W_image,10,10)
+        canvas.itemconfigure(j.getVictory(), text='')
         j.setGrille(grille)
         j.map(grille)
         
 
 
 
-n = niveaux(list_fire, list_ice, list_wood)
+n = niveaux(list_fire, list_ice, list_wood, textId)
 mainmenu = Menu(root)
 first_menu = Menu(mainmenu, tearoff=0)
 first_menu.add_command(label='Niveau 1', command=n.niveau1)
