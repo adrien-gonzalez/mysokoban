@@ -1,5 +1,14 @@
+import pygame
+from pygame import mixer
 import sys
 from tkinter import *
+
+
+pygame.init()
+sound1=pygame.mixer.Sound("sons/Jaunter-Reset.wav")
+sound1.set_volume(0.05)
+sound1.play()
+
 
 SIZE = 800
 grille = [
@@ -204,6 +213,8 @@ canvas = Canvas(root, height=SIZE, width=SIZE)
 root.title("My Sokoban")
 canvas.pack(padx=10,pady=10)
 
+
+
 class niveaux():
 
     def __init__(self, list_fire, list_ice, list_wood, textId):
@@ -244,16 +255,43 @@ class niveaux():
 
     def niveau3(self):
         grille = [
-            [0, 0, 0, 1, 1, 1, 0, 0, 0, 1],
-            [0, 0, 0, 1, 1, 0, 0, 0, 0, 1],
-            [0, 0, 0, 1, 1, 0, 0, 0, 0, 1],
-            [0, 0, 0, 1, 1, 0, 1, 1, 0, 1],
-            [0, 0, 0, 1, 1, 0, 0, 0, 0, 1],
-            [0, 0, 0, 1, 1, 0, 0, 0, 0, 1],
-            [0, 0, 0, 1, 1, 0, 3, 0, 0, 1],
+            [0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
             [0, 0, 0, 1, 1, 0, 0, 0, 3, 1],
-            [0, 0, 0, 1, 1, 0, 0, 0, 0, 1],
-            [0, 0, 0, 1, 1, 0, 0, 0, 0, 1],
+            [0, 0, 1, 1, 1, 0, 2, 0, 0, 1],
+            [1, 0, 0, 1, 1, 0, 1, 1, 0, 1],
+            [1, 0, 0, 1, 1, 0, 0, 2, 0, 1],
+            [1, 1, 0, 1, 1, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 2, 3, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 3, 1],
+            [1, 0, 1, 1, 1, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        ]
+        self.update(grille)
+
+    
+    def niveau4(self):
+        grille = [
+            [0, 0, 1, 1, 1, 1, 1, 1],
+            [0, 0, 1, 0, 0, 0, 1, 1],
+            [1, 0, 0, 0, 3, 2, 1, 1],
+            [1, 1, 0, 0, 0, 2, 0, 1],
+            [1, 1, 1, 1, 3, 0, 0, 1],
+            [1, 1, 0, 0, 0, 0, 0, 1],
+            [1, 1, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+        ]
+        self.update(grille)
+
+    def niveau5(self):
+        grille = [
+            [0, 0, 1, 1, 1, 1, 1, 1],
+            [0, 0, 1, 3, 0, 0, 1, 1],
+            [1, 0, 0, 0, 0, 2, 3, 1],
+            [1, 1, 0, 1, 3, 2, 0, 1],
+            [1, 1, 0, 1, 1, 0, 0, 1],
+            [1, 1, 0, 0, 2, 0, 0, 1],
+            [1, 1, 1, 0, 1, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1],
         ]
         self.update(grille)
 
@@ -273,6 +311,7 @@ class niveaux():
         
 
 
+    
 
 n = niveaux(list_fire, list_ice, list_wood, textId)
 mainmenu = Menu(root)
@@ -282,8 +321,13 @@ first_menu.add_separator()
 first_menu.add_command(label='Niveau 2', command=n.niveau2)
 first_menu.add_separator()
 first_menu.add_command(label='Niveau 3', command=n.niveau3)
+first_menu.add_separator()
+first_menu.add_command(label='Niveau 4', command=n.niveau4)
+first_menu.add_separator()
+first_menu.add_command(label='Niveau 5', command=n.niveau5)
 mainmenu.add_cascade(label='Niveaux', menu=first_menu)
 root.config(menu=mainmenu)
+
 
 # NW=Nord West, le coin haut guche de l'image sera positionne a (10,10):
 canvas.create_image(0,0, image=bg,  anchor="nw")
@@ -298,7 +342,6 @@ canvas.bind_all('<Right>', j.droite)
 canvas.bind_all('<Left>', j.gauche)
 canvas.bind_all('<Up>', j.haut)
 canvas.bind_all('<Down>', j.bas)
-
        
 
 j.map(grille)
